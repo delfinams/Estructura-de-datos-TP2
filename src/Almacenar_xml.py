@@ -61,7 +61,7 @@ class La_Nacion(object):
             self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=272')
             self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=7773')
             self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=7')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss/origen=2')
+            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-origen=2')
             self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=120')
             time.sleep(minutos*60)
 
@@ -255,9 +255,9 @@ class Pagina_12(object):
 
 
 
-telam = Telam()
-telam.actualizar_xml('http://www.telam.com.ar/rss2/ultimasnoticias.xml')
-pagina = Pagina_12()
-pagina.actualizar_xml('http://www.pagina12.com.ar/diario/rss/ultimas_noticias.xml')
+ln = La_Nacion()
+ln.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-origen=2')
+
+
 
 
