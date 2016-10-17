@@ -118,13 +118,14 @@ class Telam(object):
 
     def leer_xml(self, minutos):
         while True:
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=30')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=272')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=7773')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=7')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss/origen=2')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=120')
+            self.actualizar_xml('http://www.telam.com.ar/rss2/economia.xml')
+            self.actualizar_xml('http://www.telam.com.ar/rss2/espectaculos.xml')
+            self.actualizar_xml('http://www.telam.com.ar/rss2/ultimasnoticias.xml')
+            self.actualizar_xml('http://www.telam.com.ar/rss2/politica.xml')
+            self.actualizar_xml('http://www.telam.com.ar/rss2/sociedad.xml')
+            self.actualizar_xml('http://www.telam.com.ar/rss2/internacional.xml')
             time.sleep(minutos * 60)
+
 
 
 class Clarin(object):
@@ -180,12 +181,11 @@ class Clarin(object):
 
     def leer_xml(self, minutos):
         while True:
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=30')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=272')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=7773')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=7')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss/origen=2')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=120')
+            self.actualizar_xml('http://www.clarin.com/rss/lo-ultimo/')
+            self.actualizar_xml('http://www.clarin.com/rss/politica/')
+            self.actualizar_xml('http://www.clarin.com/rss/mundo/')
+            self.actualizar_xml('http://www.clarin.com/rss/sociedad/')
+            self.actualizar_xml('http://www.clarin.com/rss/extrashow/cine/')
             time.sleep(minutos * 60)
 
 
@@ -202,7 +202,7 @@ class Pagina_12(object):
             root = ET.fromstring(datos)[0]
             titulo = root[0].text + ".xml"
             titulo = titulo.replace("/"," ")
-            print(titulo)
+
             archivo = open(titulo, 'wb')
             archivo.write(datos)
             archivo.close()
@@ -224,16 +224,16 @@ class Pagina_12(object):
 
                 id_referencia = viejo_xml[13][1].text
 
-                for i in range(13,len(nuevo_xml)):
+                for i in range(12,len(nuevo_xml)):
                     id_actual = nuevo_xml[i][1].text
                     indice = len(nuevo_xml) - 1
                     if id_actual == id_referencia:
                         indice = i
                         break
 
-                for i in range(indice-1, 12, -1):
+                for i in range(indice-1, 11, -1):
                     entrada = copy.deepcopy(nuevo_xml[i])
-                    viejo_xml.insert(13, entrada)
+                    viejo_xml.insert(12, entrada)
                     texto = ET.tostring(viejo_xml, pretty_print=True, encoding ="utf-8", method="xml").decode("utf-8")
                     archivo = open(titulo, 'w')
                     archivo.write(texto)
@@ -245,19 +245,12 @@ class Pagina_12(object):
 
     def leer_xml(self, minutos):
         while True:
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=30')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=272')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=7773')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=7')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss/origen=2')
-            self.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=120')
+            self.actualizar_xml('http://www.pagina12.com.ar/diario/rss/ultimas_noticias.xml')
+            self.actualizar_xml('http://www.pagina12.com.ar/diario/rss/espectaculos.xml')
+            self.actualizar_xml('http://www.pagina12.com.ar/diario/rss/cash.xml')
+            self.actualizar_xml('http://www.pagina12.com.ar/diario/rss/radar.xml')
+            self.actualizar_xml('http://www.pagina12.com.ar/diario/rss/turismo.xml')
             time.sleep(minutos * 60)
-
-
-
-ln = La_Nacion()
-ln.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-origen=2')
-
 
 
 
