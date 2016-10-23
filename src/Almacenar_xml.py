@@ -11,7 +11,9 @@ class La_Nacion(object):
 
     def guardar_xml(self, url):
         try:
-            req = urllib.request.Request(url)
+            req = urllib.request.Request(url, data=None, headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
+            })
             with urllib.request.urlopen(req) as rss:
                 datos = (rss.read())
 
@@ -25,35 +27,37 @@ class La_Nacion(object):
             return "No se pudo guardar"
 
     def actualizar_xml(self, url):
-        try:
-            req = urllib.request.Request(url)
-            with urllib.request.urlopen(req) as rss:
-                datos = (rss.read())
+    
+        req = urllib.request.Request(url, data=None, headers={
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
+        })
+        with urllib.request.urlopen(req) as rss:
+            datos = (rss.read())
 
-                nuevo_xml = ET.fromstring(datos)
-                titulo = nuevo_xml[1].text+".xml"
-                viejo_archivo = ET.parse(titulo)
-                viejo_xml = viejo_archivo.getroot()
+            nuevo_xml = ET.fromstring(datos)
+            titulo = nuevo_xml[1].text+".xml"
+            viejo_archivo = ET.parse(titulo)
+            viejo_xml = viejo_archivo.getroot()
 
-                id_referencia = viejo_xml[7][0].text
+            id_referencia = viejo_xml[7][0].text
 
-                for i in range(7,len(nuevo_xml)):
-                    id_actual = nuevo_xml[i][0].text
-                    indice = len(nuevo_xml) - 1
-                    if id_actual == id_referencia:
-                        indice = i
-                        break
+            for i in range(7,len(nuevo_xml)):
+                id_actual = nuevo_xml[i][0].text
+                indice = len(nuevo_xml) - 1
+                if id_actual == id_referencia:
+                    indice = i
+                    break
 
-                for i in range(indice-1, 6, -1):
-                    entrada = copy.deepcopy(nuevo_xml[i])
-                    viejo_xml.insert(7, entrada)
-                    texto = ET.tostring(viejo_xml, pretty_print=True, encoding ="utf-8", method="xml").decode("utf-8")
-                    archivo = open(titulo, 'w')
-                    archivo.write(texto)
-                    archivo.close()
+            for i in range(indice-1, 6, -1):
+                entrada = copy.deepcopy(nuevo_xml[i])
+                viejo_xml.insert(7, entrada)
+                texto = ET.tostring(viejo_xml, pretty_print=True, encoding ="utf-8", method="xml").decode("utf-8")
+                archivo = open(titulo, 'w')
+                archivo.write(texto)
+                archivo.close()
 
-        except:
-            return "No se pudo guardar"
+    
+        #return "No se pudo guardar"
 
     def leer_xml(self,minutos):
         while True:
@@ -70,7 +74,9 @@ class Telam(object):
 
     def guardar_xml(self, url):
         try:
-            req = urllib.request.Request(url)
+            req = urllib.request.Request(url, data=None, headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
+            })
             with urllib.request.urlopen(req) as rss:
                 datos = (rss.read())
 
@@ -86,7 +92,9 @@ class Telam(object):
 
     def actualizar_xml(self, url):
         try:
-            req = urllib.request.Request(url)
+            req = urllib.request.Request(url, data=None, headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
+            })
             with urllib.request.urlopen(req) as rss:
                 datos = (rss.read())
 
@@ -133,7 +141,9 @@ class Clarin(object):
 
     def guardar_xml(self, url):
         try:
-            req = urllib.request.Request(url)
+            req = urllib.request.Request(url, data=None, headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
+            })
             with urllib.request.urlopen(req) as rss:
                 datos = (rss.read())
 
@@ -149,7 +159,9 @@ class Clarin(object):
 
     def actualizar_xml(self, url):
         try:
-            req = urllib.request.Request(url)
+            req = urllib.request.Request(url, data=None, headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
+            })
             with urllib.request.urlopen(req) as rss:
                 datos = (rss.read())
 
@@ -261,21 +273,21 @@ l.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_i
 l.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=7')
 l.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-origen=2')
 l.actualizar_xml('http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=120')
-p = Pagina_12()
-p.actualizar_xml('http://www.pagina12.com.ar/diario/rss/ultimas_noticias.xml')
-p.actualizar_xml('http://www.pagina12.com.ar/diario/rss/espectaculos.xml')
-p.actualizar_xml('http://www.pagina12.com.ar/diario/rss/cash.xml')
-p.actualizar_xml('http://www.pagina12.com.ar/diario/rss/radar.xml')
-p.actualizar_xml('http://www.pagina12.com.ar/diario/rss/turismo.xml')
+'''p = Pagina_12()
+p.guardar_xml('http://www.pagina12.com.ar/diario/rss/ultimas_noticias.xml')
+p.guardar_xml('http://www.pagina12.com.ar/diario/rss/espectaculos.xml')
+p.guardar_xml('http://www.pagina12.com.ar/diario/rss/cash.xml')
+p.guardar_xml('http://www.pagina12.com.ar/diario/rss/radar.xml')
+p.guardar_xml('http://www.pagina12.com.ar/diario/rss/turismo.xml')
 c=Clarin()
-c.actualizar_xml('http://www.clarin.com/rss/lo-ultimo/')
-c.actualizar_xml('http://www.clarin.com/rss/politica/')
-c.actualizar_xml('http://www.clarin.com/rss/sociedad/')
-c.actualizar_xml('http://www.clarin.com/rss/extrashow/cine/')
+c.guardar_xml('http://www.clarin.com/rss/lo-ultimo/')
+c.guardar_xml('http://www.clarin.com/rss/politica/')
+c.guardar_xml('http://www.clarin.com/rss/sociedad/')
+c.guardar_xml('http://www.clarin.com/rss/extrashow/cine/')
 t = Telam()
-t.actualizar_xml('http://www.telam.com.ar/rss2/economia.xml')
-t.actualizar_xml('http://www.telam.com.ar/rss2/espectaculos.xml')
-t.actualizar_xml('http://www.telam.com.ar/rss2/ultimasnoticias.xml')
-t.actualizar_xml('http://www.telam.com.ar/rss2/politica.xml')
-t.actualizar_xml('http://www.telam.com.ar/rss2/sociedad.xml')
-t.actualizar_xml('http://www.telam.com.ar/rss2/internacional.xml')
+t.guardar_xml('http://www.telam.com.ar/rss2/economia.xml')
+t.guardar_xml('http://www.telam.com.ar/rss2/espectaculos.xml')
+t.guardar_xml('http://www.telam.com.ar/rss2/ultimasnoticias.xml')
+t.guardar_xml('http://www.telam.com.ar/rss2/politica.xml')
+t.guardar_xml('http://www.telam.com.ar/rss2/sociedad.xml')
+t.guardar_xml('http://www.telam.com.ar/rss2/internacional.xml')'''
