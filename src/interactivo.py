@@ -49,7 +49,14 @@ class Menu(object):
         medio_elegido = int(input("Ingrese el medio elegido \n1) Clarin\n2) La Nacion\n3) Telam\n4) Pagina 12\n5) Todos los medios\n"))
         seccion_elegida = int(input("Ingrese la seccion elegida\n1) Ultimas Noticias\n2) Politica\n3) Espectaculos\n4) Economia\n5) Internacional\n6) Todas las secciones\n"))
 
-        resultado = self.consultas.ranking_global(cant, medio = medio_elegido, seccion = seccion_elegida-1, tit_o_desc = 1)
+        if medio_elegido == 5:
+            medio_elegido = None
+        if seccion_elegida == 6:
+            seccion_elegida = None
+        else:
+            seccion_elegida = seccion_elegida - 1
+
+        resultado = self.consultas.ranking_global(cant, medio = medio_elegido, seccion = seccion_elegida, tit_o_desc = 1)
         print("\n")
         print(resultado)
 
@@ -61,7 +68,14 @@ class Menu(object):
         seccion_elegida = int(input(
             "Ingrese la seccion elegida\n1) Ultimas Noticias\n2) Politica\n3) Espectaculos\n4) Economia\n5) Internacional\n6) Todas las secciones\n"))
 
-        resultado = self.consultas.ranking_global(cant, medio=medio_elegido, seccion=seccion_elegida - 1, tit_o_desc=2)
+        if medio_elegido == 5:
+            medio_elegido = None
+        if seccion_elegida == 6:
+            seccion_elegida = None
+        else:
+            seccion_elegida = seccion_elegida - 1
+
+        resultado = self.consultas.ranking_global(cant, medio=medio_elegido, seccion=seccion_elegida, tit_o_desc=2)
         print("\n")
         print(resultado)
 
@@ -76,27 +90,21 @@ class Menu(object):
         secciones = list(input(
             "Ingrese las secciones elegidas como una lista \n1) Ultimas Noticias\n2) Politica\n3) Espectaculos\n4) Economia\n5) Internacional\n6) Todas las secciones\n"))
 
+        if medios == [5]:
+            medios = None
+        if secciones == [6]:
+            secciones = None
+
         resultado = self.consultas.cantidad_noticias_fecha(f_desde=fecha_desde, f_hasta=fecha_hasta, h_desde=hora_desde, h_hasta=hora_hasta, medios_elegidos=medios, secciones_elegidas=secciones)
         print("\n")
         print(resultado)
 
-
     def _menu_busqueda(self):
-        opciones = '[1] COMPARAR trayectos por DISTANCIA\n' \
-                   '[2] COMPARAR trayectos por TIEMPO\n'
-        print('\nCOMPARAR TRAYECTOS\n---------------\n' + opciones + '\n')
-
-        opcion = ''
-        while True:
-            opcion = input('Ingrese una opción: ')
-            if opcion == '1':
-                self._menu_comparar_distancia()
-                break
-            elif opcion == '2':
-                self._menu_comparar_tiempo()
-                break
-            else:
-                print('Opción incorrecta\n')
+        print('\nBUSCAR\n---------------')
+        palabra = input("Ingrese la palabra a buscar: ")
+        resultado = self.consultas.buscar_palabra(palabra)
+        print("\n")
+        print(resultado)
 
 
 if __name__ == "__main__":

@@ -81,4 +81,4 @@ def desacentuar(palabra):
     palabra = re.sub(r'ú', 'u', palabra)
     return palabra
 
-mapear_clarin(["data.xml"])
+mapear_clarin(["Clarin.com - Cine.xml"])
