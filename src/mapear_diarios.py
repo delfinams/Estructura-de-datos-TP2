@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # coding=utf-8
+# coding: utf-8
 
 from nltk.stem.snowball import SnowballStemmer
 import lxml.etree as ET
@@ -58,6 +59,113 @@ def descrip_clarin(root, id_seccion):
 
     salida.close()
 
+
+def mapear_telam(archivos):
+    for id_seccion in range(len(archivos)):
+        xml = open(archivos[id_seccion], 'r')
+        tree = xml.read().encode()
+        root = ET.fromstring(tree)
+        titulo_telam(root, id_seccion)
+        descrip_telam(root, id_seccion)
+
+
+def titulo_telam(root, id_seccion):
+    salida = open("salida.txt", "a")
+
+    for idx in range(4, len(root[0])):
+        titulo = root[0][idx][0].text
+        titulo = titulo.encode("raw_unicode_escape").decode()
+        fecha = root[0][idx][4].text
+        fecha = parsear(fecha)
+        fecha = fecha.strftime('%y%m%d%H%M')
+
+        #Telam comienza con 2
+        idDocumento = '2' + str(id_seccion) + str(idx).zfill(3) + '1' + fecha
+
+        lista = re.split(r'\W+', titulo)
+        lista = lematizar(lista)
+
+        for palabra in lista:
+            salida.write((palabra + ", " + idDocumento + "\n"))
+
+    salida.close()
+
+
+def descrip_telam(root, id_seccion):
+    salida = open("salida.txt", "a")
+
+    for idx in range(4, len(root[0])):
+        descrip = root[0][idx][3].text
+        descrip = descrip.encode("raw_unicode_escape").decode()
+
+        fecha = root[0][idx][4].text
+        fecha = parsear(fecha)
+        fecha = fecha.strftime('%y%m%d%H%M')
+
+        idDocumento = '2' + str(id_seccion) + str(idx).zfill(3) + "2" + fecha
+
+        lista = re.split(r'\W+', descrip)
+        lista = lematizar(lista)
+
+        for palabra in lista:
+            salida.write((palabra + ", " + idDocumento + "\n"))
+
+    salida.close()
+
+def mapear_lanacion(archivos):
+    for id_seccion in range(len(archivos)):
+        xml = open(archivos[id_seccion], 'r')
+        tree = xml.read().encode("raw_unicode_escape")
+        root = ET.fromstring(tree)
+        print(root)
+        #titulo_lanacion(root, id_seccion)
+        #descrip_lanacion(root, id_seccion)
+
+def titulo_lanacion(root, id_seccion):
+    salida = open("salida.txt", "a")
+
+    for idx in range(4, len(root[0])):
+        titulo = root[0][idx][0].text
+        titulo = titulo.encode("raw_unicode_escape").decode()
+        fecha = root[0][idx][4].text
+        fecha = parsear(fecha)
+        fecha = fecha.strftime('%y%m%d%H%M')
+
+        #Telam comienza con 2
+        idDocumento = '2' + str(id_seccion) + str(idx).zfill(3) + '1' + fecha
+
+        lista = re.split(r'\W+', titulo)
+        lista = lematizar(lista)
+
+        for palabra in lista:
+            salida.write((palabra + ", " + idDocumento + "\n"))
+
+    salida.close()
+
+
+def descrip_lanacion(root, id_seccion):
+    salida = open("salida.txt", "a")
+
+    for idx in range(4, len(root[0])):
+        descrip = root[0][idx][3].text
+        descrip = descrip.encode("raw_unicode_escape").decode()
+
+        fecha = root[0][idx][4].text
+        fecha = parsear(fecha)
+        fecha = fecha.strftime('%y%m%d%H%M')
+
+        idDocumento = '2' + str(id_seccion) + str(idx).zfill(3) + "2" + fecha
+
+        lista = re.split(r'\W+', descrip)
+        lista = lematizar(lista)
+
+        for palabra in lista:
+            salida.write((palabra + ", " + idDocumento + "\n"))
+
+    salida.close()
+
+
+
 def lematizar(lista):
     stemmer = SnowballStemmer("spanish")
     recortada = []
@@ -81,5 +189,8 @@ def desacentuar(palabra):
     palabra = re.sub(r'ú', 'u', palabra)
     return palabra
 
-#mapear_clarin(["Clarin.com - Home.xml", "Clarin.com - Política.xml", "Clarin.com - Cine.xml", "Clarin.com - Sociedad.xml", "Clarin.com - Mundo.xml"])
-mapear_clarin(["Clarin.com - Cine.xml"])
+#mapear_clarin(["Clarin.com - Home.xml", "Clarin.com - Política.xml"])
+#mapear_telam(["Últimas noticias - Télam.xml","Sociedad - Télam.xml"])
+#mapear_lanacion(["Economía - lanacion.com.xml","El Mundo - lanacion.com.xml","Espectáculos - lanacion.com.xml","Política - lanacion.com.xml","Sociedad - lanacion.com.xml","Últimas noticias - lanacion.com.xml",""])
+mapear_lanacion(["Economía - lanacion.com.xml"])
+
