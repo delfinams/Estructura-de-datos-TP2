@@ -1,10 +1,17 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# coding=utf-8
+# coding: utf-8
+
+import pickle
 import re
 import time
+from nltk.stem.snowball import SnowballStemmer
 
 class Consultas(object):
-    lista = [[(0, 1), ['2001421611031349', '2001421611031349', '2001421611031349', '2001421611031349', '2001421611031349'], 0], [(0, 1), ['1101421611031350', '1101121611031409', '1101421611031349', '1101421611031349', '1001421611031349', '1101421611031349', '1101421611031349', '1001421611031349'], None], [(0, 1), ['1001121611031409'], None], [(1, 1), ['1001221611031400', '1000811611031417', '1001421611031349', '1001421611031349'], None], [(0, 1), ['1001421611031349'], None], [(0, 1), ['1001421611031349'], None], [(1, 0), ['1101511611031347'], None], [(0, 1), ['1001321611031351'], None], [(0, 1), ['1001621611031329'], None], [(0, 1), ['1000821611031417'], None], [(1, 0), ['1000911611031413'], 58], [(1, 0), ['1001311611031351'], None], [(0, 2), ['1000821611031417', '1000921611031413'], None], [(0, 2), ['1101421611031349', '1100821611031417'], None], [(0, 2), ['1000821611031417', '1001121611031409'], None], [(0, 1), ['1001321611031351'], None], [(1, 2), ['1000721611031417', '1000711611031417', '1001521611031347'], None], [(1, 0), ['1000811611031417'], None], [(0, 1), ['1001421611031349'], None], [(0, 1), ['1001121611031409'], None], [(0, 1), ['1001421611031349'], 110], [(0, 1), ['1000821611031417'], None], [(1, 1), ['1001411611031349', '1001421611031349'], None], [(1, 0), ['1001511611031347'], None], [(1, 2), ['1001011611031410', '1001021611031410'], None], [(0, 1), ['1001021611031410'], None], [(0, 1), ['1001421611031349'], None], [(1, 0), ['1001511611031347'], None], [(0, 1), ['1001321611031351'], None], [(1, 0), ['1001511611031347'], None], [(0, 1), ['1001121611031409'], 171], [(0, 1), ['1001021611031410'], None], [(1, 0), ['1001411611031349'], None], [(0, 1), ['1001121611031409'], None], [(0, 1), ['1001421611031349'], None], [(1, 0), ['1001311611031351'], None], [(0, 1), ['1000921611031413'], None], [(0, 1), ['1001321611031351'], None], [(1, 0), ['1000711611031417'], None], [(0, 1), ['1000821611031417'], None], [(1, 0), ['1001111611031409'], 244], [(0, 1), ['1000921611031413'], None], [(0, 1), ['1001021611031410'], None], [(0, 1), ['1000721611031417'], None], [(0, 1), ['1001121611031409'], None], [(0, 1), ['1001421611031349'], None], [(1, 0), ['1001311611031351'], None], [(0, 1), ['1001021611031410'], None], [(0, 1), ['1000821611031417'], None], [(1, 0), ['1000811611031417'], None], [(1, 0), ['1001611611031329'], 303], [(1, 1), ['1001111611031409', '1001121611031409'], None], [(1, 1), ['1001411611031349', '1001521611031347'], None], [(0, 1), ['1001421611031349'], None], [(1, 0), ['1001011611031410'], None], [(0, 2), ['1000721611031417', '1001121611031409'], None], [(0, 2), ['1001021611031410', '1001521611031347'], None], [(1, 0), ['1001211611031400'], None], [(0, 1), ['1001221611031400'], None], [(0, 1), ['1000721611031417'], None], [(1, 0), ['1001211611031400'], 365], [(0, 1), ['1000821611031417'], None], [(1, 0), ['1001511611031347'], None], [(0, 1), ['1001521611031347'], None], [(0, 1), ['1001021611031410'], None], [(0, 1), ['1000721611031417'], None], [(1, 0), ['1001211611031400'], None], [(1, 0), ['1000711611031417'], None], [(1, 0), ['1001411611031349'], None], [(1, 0), ['1001311611031351'], None], [(0, 1), ['1001321611031351'], 423], [(1, 0), ['1001211611031400'], None], [(1, 0), ['1000811611031417'], None], [(0, 1), ['1001321611031351'], None], [(0, 1), ['1000721611031417'], None], [(0, 1), ['1001021611031410'], None], [(0, 1), ['1001021611031410'], None], [(1, 0), ['1001011611031410'], None], [(0, 1), ['1001021611031410'], None], [(0, 1), ['1001321611031351'], None], [(0, 1), ['1001021611031410'], 476], [(1, 0), ['1000911611031413'], None], [(0, 1), ['1000721611031417'], None], [(0, 1), ['1001621611031329'], None], [(1, 0), ['1000711611031417'], None], [(0, 1), ['1000921611031413'], None], [(0, 1), ['1000721611031417'], None], [(1, 0), ['1001211611031400'], None], [(0, 1), ['1001321611031351'], None], [(1, 0), ['1001111611031409'], None], [(0, 1), ['1001321611031351'], 541], [(0, 1), ['1000721611031417'], None], [(0, 1), ['1000921611031413'], None], [(0, 1), ['1001621611031329'], None], [(0, 1), ['1001021611031410'], None], [(0, 1), ['1001221611031400'], None], [(0, 1), ['1001021611031410'], None], [(1, 0), ['1001511611031347'], None], [(1, 0), ['1000911611031413'], None], [(1, 1), ['1000811611031417', '1000821611031417'], None], [(2, 0), ['1000811611031417', '1000711611031417'], 608], [(0, 1), ['1000821611031417'], None], [(1, 0), ['1001011611031410'], None], [(0, 1), ['1001321611031351'], None], [(0, 1), ['1001621611031329'], None], [(0, 1), ['1001021611031410'], None], [(1, 0), ['1001211611031400'], None], [(0, 1), ['1001221611031400'], None], [(1, 0), ['1000711611031417'], None], [(1, 0), ['1001111611031409'], None], [(1, 0), ['1001311611031351'], 679], [(0, 1), ['1000721611031417'], None], [(0, 1), ['1001021611031410'], None], [(1, 0), ['1001511611031347'], None], [(0, 1), ['1001021611031410'], None], [(1, 0), ['1000811611031417'], None], [(0, 1), ['1001521611031347'], None], [(1, 0), ['1001411611031349'], None], [(0, 1), ['1001021611031410'], None], [(0, 1), ['1001021611031410'], None], [(0, 1), ['1001521611031347'], 756], [(0, 1), ['1001221611031400'], None], [(1, 0), ['1001411611031349'], None], [(0, 1), ['1000821611031417'], None], [(0, 1), ['1000721611031417'], None], [(1, 0), ['1001211611031400'], None], [(1, 1), ['1001621611031329', '1001611611031329'], None]]
+    lista = pickle.load(open('estructura.p','rb'))
 
-    largo = "5activ5actor9actuacion4alta4apel5aplic5asalt5atras3baj3bat3bod6bolivi4busc3cam4carg4cart3cas4chin6chofer5colon9comercial6compet7confirm4cont4cort4crec4crim7cuchill3dab3ded9defenestr3dej5delit9depardieu9desarroll7desment6destin6devolv5diseñ4dobl7durisim4elig6empiec6espaci7estrell4fall3fif3fot6galaxy3gam4gent6gerard4golp5gremi4hair9hollywood3hor4huir6imagen7inaugur6ingeni5iphon3jov6ladron4larg4lleg3lob5local5manej7mantien5march5marin3mat4medi5mejor5melen3mes5messy3mir5mostr9movimient3mud6muestr4mund7mundial4novi5numer5orcas7organiz5pacin4pais6palerm10paradisiac8particip3pel7pesquer4plan4plat4play6potent7present6proces8protagon4punt5razon7recient6recurs7registr6revist5roman7sancion9seleccion4semi7serruch4sigu9smartphon8sorprend6taxist8tendenci5tenes6tortur6tripul4uber9ultrarrap5veran4vide3vot"
+    largo = open('largo.txt','r').read()
 
     fecha_actual = time.strftime("%y%m%d")
 
@@ -121,6 +128,7 @@ class Consultas(object):
 
 
     def buscar_palabra(self, palabra_a_buscar):
+        palabra_a_buscar = self.lematizar(palabra_a_buscar)
         first = [0, 0]
         last = [None, None]
         i = len(self.lista)
@@ -168,10 +176,62 @@ class Consultas(object):
         palabra = self.largo[idx:idx + largo_palabra]
         return palabra
 
-"""
-a = Consultas()
-print(a.ranking_global())
-"""
+    def desacentuar(self, palabra):
+        palabra = re.sub(r'á', 'a', palabra)
+        palabra = re.sub(r'é', 'e', palabra)
+        palabra = re.sub(r'í', 'i', palabra)
+        palabra = re.sub(r'ó', 'o', palabra)
+        palabra = re.sub(r'ú', 'u', palabra)
+        return palabra
 
+    def lematizar(self, x):
+        stemmer = SnowballStemmer("spanish")
+        lista = []
+        lista.append(x)
+        recortada = []
+        stopwords = ['él', 'ésta', 'éstas', 'éste', 'éstos', 'última', 'últimas', 'último', 'últimos', 'a', 'añadió', 'aún',
+                     'actualmente', 'adelante', 'además', 'afirmó', 'agregó', 'ahí', 'ahora', 'al', 'algún', 'algo',
+                     'alguna', 'algunas', 'alguno', 'algunos', 'alrededor', 'ambos', 'ante', 'anterior', 'antes', 'apenas',
+                     'aproximadamente', 'aquí', 'así', 'aseguró', 'aunque', 'ayer', 'bajo', 'bien', 'buen', 'buena',
+                     'buenas', 'bueno', 'buenos', 'cómo', 'cada', 'casi', 'cerca', 'cierto', 'cinco', 'comentó', 'como',
+                     'con', 'conocer', 'consideró', 'considera', 'contra', 'cosas', 'creo', 'cual', 'cuales', 'cualquier',
+                     'cuando', 'cuanto', 'cuatro', 'cuenta', 'da', 'dado', 'dan', 'dar', 'de', 'debe', 'deben', 'debido',
+                     'decir', 'dejó', 'del', 'demás', 'dentro', 'desde', 'después', 'dice', 'dicen', 'dicho', 'dieron',
+                     'diferente', 'diferentes', 'dijeron', 'dijo', 'dio', 'donde', 'dos', 'durante', 'e', 'ejemplo', 'el',
+                     'ella', 'ellas', 'ello', 'ellos', 'embargo', 'en', 'encuentra', 'entonces', 'entre', 'era', 'eran',
+                     'es', 'esa', 'esas', 'ese', 'eso', 'esos', 'está', 'están', 'esta', 'estaba', 'estaban', 'estamos',
+                     'estar', 'estará', 'estas', 'este', 'esto', 'estos', 'estoy', 'estuvo', 'ex', 'existe', 'existen',
+                     'explicó', 'expresó', 'fin', 'fue', 'fuera', 'fueron', 'gran', 'grandes', 'ha', 'había', 'habían',
+                     'haber', 'habrá', 'hace', 'hacen', 'hacer', 'hacerlo', 'hacia', 'haciendo', 'han', 'hasta', 'hay',
+                     'haya', 'he', 'hecho', 'hemos', 'hicieron', 'hizo', 'hoy', 'hubo', 'igual', 'incluso', 'indicó',
+                     'informó', 'junto', 'la', 'lado', 'las', 'le', 'les', 'llegó', 'lleva', 'llevar', 'lo', 'los', 'luego',
+                     'lugar', 'más', 'manera', 'manifestó', 'mayor', 'me', 'mediante', 'mejor', 'mencionó', 'menos', 'mi',
+                     'mientras', 'misma', 'mismas', 'mismo', 'mismos', 'momento', 'mucha', 'muchas', 'mucho', 'muchos',
+                     'muy', 'nada', 'nadie', 'ni', 'ningún', 'ninguna', 'ningunas', 'ninguno', 'ningunos', 'no', 'nos',
+                     'nosotras', 'nosotros', 'nuestra', 'nuestras', 'nuestro', 'nuestros', 'nueva', 'nuevas', 'nuevo',
+                     'nuevos', 'nunca', 'o', 'ocho', 'otra', 'otras', 'otro', 'otros', 'para', 'parece', 'parte', 'partir',
+                     'pasada', 'pasado', 'pero', 'pesar', 'poca', 'pocas', 'poco', 'pocos', 'podemos', 'podrá', 'podrán',
+                     'podría', 'podrían', 'poner', 'por', 'porque', 'posible', 'próximo', 'próximos', 'primer', 'primera',
+                     'primero', 'primeros', 'principalmente', 'propia', 'propias', 'propio', 'propios', 'pudo', 'pueda',
+                     'puede', 'pueden', 'pues', 'qué', 'que', 'quedó', 'queremos', 'quién', 'quien', 'quienes', 'quiere',
+                     'realizó', 'realizado', 'realizar', 'respecto', 'sí', 'sólo', 'se', 'señaló', 'sea', 'sean', 'según',
+                     'segunda', 'segundo', 'seis', 'ser', 'será', 'serán', 'sería', 'si', 'sido', 'siempre', 'siendo',
+                     'siete', 'sigue', 'siguiente', 'sin', 'sino', 'sobre', 'sola', 'solamente', 'solas', 'solo', 'solos',
+                     'son', 'su', 'sus', 'tal', 'también', 'tampoco', 'tan', 'tanto', 'tenía', 'tendrá', 'tendrán',
+                     'tenemos', 'tener', 'tenga', 'tengo', 'tenido', 'tercera', 'tiene', 'tienen', 'toda', 'todas',
+                     'todavía', 'todo', 'todos', 'total', 'tras', 'trata', 'través', 'tres', 'tuvo', 'un', 'una', 'unas',
+                     'uno', 'unos', 'usted', 'va', 'vamos', 'van', 'varias', 'varios', 'veces', 'ver', 'vez', 'y', 'ya',
+                     'yo']
+
+        for idx in range(len(lista)):
+            lista[idx] = lista[idx].lower()
+
+            if len(lista[idx]) >= 4 and lista[idx][0] not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'] and lista[
+                idx] not in stopwords:
+                lista[idx] = stemmer.stem(lista[idx])
+                lista[idx] = self.desacentuar(lista[idx])
+                recortada.append(lista[idx])
+
+        return recortada[0]
 
 

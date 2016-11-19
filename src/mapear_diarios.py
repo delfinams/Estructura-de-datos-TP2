@@ -117,22 +117,20 @@ def mapear_lanacion(archivos):
         xml = open(archivos[id_seccion], 'r')
         tree = xml.read().encode("raw_unicode_escape")
         root = ET.fromstring(tree)
-        print(root)
-        #titulo_lanacion(root, id_seccion)
+        titulo_lanacion(root, id_seccion)
         #descrip_lanacion(root, id_seccion)
 
 def titulo_lanacion(root, id_seccion):
     salida = open("salida.txt", "a")
 
-    for idx in range(4, len(root[0])):
-        titulo = root[0][idx][0].text
-        titulo = titulo.encode("raw_unicode_escape").decode()
-        fecha = root[0][idx][4].text
+    for idx in range(7, len(root)):
+        titulo = root[idx][1].text
+        fecha = root[idx][3].text
         fecha = parsear(fecha)
         fecha = fecha.strftime('%y%m%d%H%M')
 
-        #Telam comienza con 2
-        idDocumento = '2' + str(id_seccion) + str(idx).zfill(3) + '1' + fecha
+        #La Nacion comienza con 3
+        idDocumento = '3' + str(id_seccion) + str(idx).zfill(3) + '1' + fecha
 
         lista = re.split(r'\W+', titulo)
         lista = lematizar(lista)
@@ -146,15 +144,15 @@ def titulo_lanacion(root, id_seccion):
 def descrip_lanacion(root, id_seccion):
     salida = open("salida.txt", "a")
 
-    for idx in range(4, len(root[0])):
-        descrip = root[0][idx][3].text
+    for idx in range(7, len(root)):
+        descrip = root[idx][5][0].text
         descrip = descrip.encode("raw_unicode_escape").decode()
 
-        fecha = root[0][idx][4].text
+        fecha = root[idx][3].text
         fecha = parsear(fecha)
         fecha = fecha.strftime('%y%m%d%H%M')
 
-        idDocumento = '2' + str(id_seccion) + str(idx).zfill(3) + "2" + fecha
+        idDocumento = '3' + str(id_seccion) + str(idx).zfill(3) + "2" + fecha
 
         lista = re.split(r'\W+', descrip)
         lista = lematizar(lista)
@@ -189,8 +187,9 @@ def desacentuar(palabra):
     palabra = re.sub(r'ú', 'u', palabra)
     return palabra
 
-#mapear_clarin(["Clarin.com - Home.xml", "Clarin.com - Política.xml"])
-#mapear_telam(["Últimas noticias - Télam.xml","Sociedad - Télam.xml"])
-#mapear_lanacion(["Economía - lanacion.com.xml","El Mundo - lanacion.com.xml","Espectáculos - lanacion.com.xml","Política - lanacion.com.xml","Sociedad - lanacion.com.xml","Últimas noticias - lanacion.com.xml",""])
-mapear_lanacion(["Economía - lanacion.com.xml"])
+
+
+
+
+
 

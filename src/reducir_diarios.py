@@ -1,5 +1,6 @@
 import os
 import re
+import pickle
 
 def reducir(archivo):
     palabras = open(archivo,'r')
@@ -46,6 +47,7 @@ def indice_invertido():
             estructura.append([(freq_t,freq_d),docus,palabras.index(palabra) - len(str(len(palabra)))])
         else:
             estructura.append([(freq_t,freq_d),docus,None])
+    pickle.dump(estructura,open('estructura.p','wb'))
     return estructura
 
 def get_listado_letras():
@@ -73,6 +75,4 @@ def get_string_palabras(archivos):
     return palabras
 
 
-"""separar(reducir("salida.txt"))
-"""
-print(indice_invertido())
+indice_invertido()
