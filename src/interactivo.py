@@ -58,7 +58,8 @@ class Menu(object):
 
         resultado = self.consultas.ranking_global(cant, medio = medio_elegido, seccion = seccion_elegida, tit_o_desc = 1)
         print("\n")
-        print(resultado)
+        print(str(resultado) + " Noticias con esos parametros")
+        print("\n")
 
     def _menu_rank_descripciones(self):
         print('\nRANKING DE DESCRIPCIONES\n---------------')
@@ -77,7 +78,8 @@ class Menu(object):
 
         resultado = self.consultas.ranking_global(cant, medio=medio_elegido, seccion=seccion_elegida, tit_o_desc=2)
         print("\n")
-        print(resultado)
+        print(str(resultado) + " Noticias con esos parametros")
+        print("\n")
 
     def _menu_cantidad_palabras(self):
         print('\nCANTIDAD DE NOTICIAS\n-----------------')
@@ -97,7 +99,8 @@ class Menu(object):
 
         resultado = self.consultas.cantidad_noticias_fecha(f_desde=fecha_desde, f_hasta=fecha_hasta, h_desde=hora_desde, h_hasta=hora_hasta, medios_elegidos=medios, secciones_elegidas=secciones)
         print("\n")
-        print(resultado)
+        print(str(resultado) + " Noticias con esos parametros")
+        print("\n")
 
     def _menu_busqueda(self):
         print('\nBUSCAR\n---------------')

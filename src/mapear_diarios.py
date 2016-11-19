@@ -162,8 +162,6 @@ def descrip_lanacion(root, id_seccion):
 
     salida.close()
 
-
-
 def lematizar(lista):
     stemmer = SnowballStemmer("spanish")
     recortada = []
@@ -188,8 +186,9 @@ def desacentuar(palabra):
     return palabra
 
 
-
-
+mapear_clarin(["Clarin.com - Política.xml"])
+mapear_telam(["Últimas noticias - Télam.xml","Sociedad - Télam.xml"])
+mapear_lanacion(["Economía - lanacion.com.xml","Política - lanacion.com.xml"])
 
 
 

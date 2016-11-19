@@ -48,6 +48,7 @@ def indice_invertido():
         else:
             estructura.append([(freq_t,freq_d),docus,None])
     pickle.dump(estructura,open('estructura.p','wb'))
+    print(estructura)
     return estructura
 
 def get_listado_letras():
@@ -73,6 +74,7 @@ def get_string_palabras(archivos):
             palabras = palabras + infile.read()
 
     return palabras
+
 
 
 indice_invertido()

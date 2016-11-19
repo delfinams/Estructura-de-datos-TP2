@@ -7,6 +7,7 @@ import pickle
 import re
 import time
 from nltk.stem.snowball import SnowballStemmer
+import lxml.etree as ET
 
 class Consultas(object):
     lista = pickle.load(open('estructura.p','rb'))
@@ -165,9 +166,57 @@ class Consultas(object):
                 corrimiento = diez_palabras.index(palabra_a_buscar) - 1
                 indice = first[1] + corrimiento
 
-                return self.lista[indice][1]
+                return self.titulo_y_cuerpo(self.lista[indice][1])
 
-        return self.lista[mid[1]][1]
+        return self.titulo_y_cuerpo(self.lista[mid[1]][1])
+
+    def titulo_y_cuerpo(self, lista):
+        noticias = ''
+        for docu in lista:
+            if str(docu)[0] == '3':
+                noticias = noticias + self.devolver_noticia_lanacion(str(docu)) + "\n" + "\n"
+            if str(docu)[0] == '2':
+                noticias = noticias + self.devolver_noticia_telam(str(docu)) + "\n" + "\n"
+            if str(docu)[0] == '1':
+                noticias = noticias + self.devolver_noticia_clarin(str(docu)) + "\n" + "\n"
+
+        return noticias
+
+    def devolver_noticia_lanacion(self, id):
+        archivos = ["Economía - lanacion.com.xml", "Política - lanacion.com.xml"]
+        id_seccion = int(id[1])
+        noticia = int(id[2:5])
+        xml = open(archivos[id_seccion], 'r')
+        tree = xml.read().encode("raw_unicode_escape")
+        root = ET.fromstring(tree)
+        return root[noticia][1].text
+
+    def devolver_noticia_telam(self, id):
+        archivos = ["Últimas noticias - Télam.xml","Sociedad - Télam.xml"]
+        id_seccion = int(id[1])
+        noticia = int(id[2:5])
+        xml = open(archivos[id_seccion], 'r')
+        tree = xml.read().encode()
+        root = ET.fromstring(tree)
+        titulo = root[0][noticia][0].text
+        titulo = titulo.encode("raw_unicode_escape").decode()
+        descrip = root[0][noticia][3].text
+        descrip = descrip.encode("raw_unicode_escape").decode()
+
+        return titulo + "\n" + descrip
+
+    def devolver_noticia_clarin(self, id):
+        archivos = ["Clarin.com - Política.xml"]
+        id_seccion = int(id[1])
+        noticia = int(id[2:5])
+        xml = open(archivos[id_seccion], 'r')
+        tree = xml.read().encode('raw_unicode_escape')
+        root = ET.fromstring(tree)
+        titulo = root[0][noticia][0].text
+        descrip = root[0][noticia][2].text
+
+        return titulo + "\n" + descrip
+
 
     def get_palabra(self, idx):
         largo_palabra = int((re.match("\d+", self.largo[idx:])).group())
@@ -234,4 +283,5 @@ class Consultas(object):
 
         return recortada[0]
 
-
+a = Consultas()
+print(a.buscar_palabra("macri"))
